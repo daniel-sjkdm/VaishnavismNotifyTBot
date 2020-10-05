@@ -3,7 +3,6 @@ import csv
 import sqlite3
 import logging
 import telegram
-import .settings
 from datetime import datetime
 from dotenv import load_dotenv
 from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf
@@ -39,10 +38,7 @@ class VaishnaBot():
         self.updater.dispatcher.add_handler(CommandHandler("iskcon_events", self.iskcon_event))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), self.message_handler))
 
-        if settings.DEBUG:
-            botkey = os.getenv('BOTKEY')
-        else:
-            botkey = os.getenv('HEROKU_BOTKEY')
+        botkey = os.getenv('BOTKEY')
         
         self.updater.start_webhook(
             listen="0.0.0.0",
@@ -50,7 +46,7 @@ class VaishnaBot():
             url_path=botkey
         )
 
-        self.updater.bot.setWebhook(f"https://vaishnabot.herokuapp.com/"{os.getenv("BOTKEY")}")
+        self.updater.bot.setWebhook(f"https://vaishnabot.herokuapp.com/{botkey}")
 
         print("Vaishnabot initialized!")
 
