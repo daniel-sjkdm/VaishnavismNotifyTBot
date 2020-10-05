@@ -43,7 +43,7 @@ class VaishnaBot():
             url_path=os.getenv("BOTKEY")
         )
 
-        self.updater.bot.setWebhook(f"https://arcane-tundra-93367.herokuapp.com/{os.getenv("BOTKEY")}")
+        self.updater.bot.setWebhook(f"https://vaishnabot.herokuapp.com/"{os.getenv("BOTKEY")}")
 
         print("Vaishnabot initialized!")
 
