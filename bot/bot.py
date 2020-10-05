@@ -99,12 +99,12 @@ class VaishnaBot():
                 body += f"Year: {event[4]}\n"
                 body += f"Starts: {event[5]}\n"
                 body += f"Ends: {events[6]}\n"
-                
+            
             body_pdf_encoded_bytes = html_to_pdf(body)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
-        else: 
+        else:
             ekadasi_date = "".join(context.args)
             if DATE_PATTERN.fullmatch(ekadasi_date):
                 year, month = None, None
@@ -128,14 +128,12 @@ class VaishnaBot():
                     events = self.get_ekadasi_events(month, fetch_by="month")
                 
                 for event in events:
-                    print(event)
                     body += f"\n## {event[1]}\n\n"
                     body += f"Month: {event[3]}\n"
                     body += f"Day: {event[2]}\n"
                     body += f"Year: {event[4]}\n"
                     body += f"Starts: {event[5]}\n"
                     body += f"Ends: {event[6]}\n"
-
 
                 body_pdf_encoded_bytes = html_to_pdf(body)
 
@@ -220,6 +218,7 @@ class VaishnaBot():
             elif fetch_by == "month&year":
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE month=? AND year=?", (data[0], data[1]))
             events = cursor.fetchall()
+            print(events)
             return events
 
 
@@ -233,6 +232,7 @@ class VaishnaBot():
             elif fetch_by == "month&year":
                 cursor.execute("SELECT * FROM iskcon_events WHERE month=? AND year=?", (data[0], data[1]))
             events = cursor.fetchall()
+            print(events)
             return events
 
 
