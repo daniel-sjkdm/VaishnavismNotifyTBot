@@ -28,6 +28,8 @@ class VaishnaBot():
 
         self.logger = logging.getLogger(name="vaishnabot")
 
+        self.PORT = os.environ.get("PORT", 5000)
+
         self.updater = Updater(token=os.getenv("BOTKEY"), use_context=True)
         
         self.updater.dispatcher.add_handler(CommandHandler("start", self.start))
@@ -35,7 +37,13 @@ class VaishnaBot():
         self.updater.dispatcher.add_handler(CommandHandler("iskcon_events", self.iskcon_event))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), self.message_handler))
 
-        self.updater.start_polling() 
+        self.updater.start_webhook(
+            listen="0.0.0.0",
+            port=5000,
+            url_path=os.getenv("BOTKEY")
+        )
+
+        self.updater.bot.setWebhook(f"https://arcane-tundra-93367.herokuapp.com/{os.getenv("BOTKEY")}")
 
         print("Vaishnabot initialized!")
 
