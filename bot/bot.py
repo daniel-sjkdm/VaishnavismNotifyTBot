@@ -166,6 +166,8 @@ class VaishnaBot():
             
             body_pdf_encoded_bytes = html_to_pdf(body, write=False)
 
+            print(body_pdf_encoded_bytes)
+
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskcon_events.pdf")
 
 
