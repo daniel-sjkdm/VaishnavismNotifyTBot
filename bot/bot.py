@@ -39,10 +39,11 @@ class VaishnaBot():
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), self.message_handler))
 
         botkey = os.getenv('BOTKEY')
-        
+        port = os.getenv('PORT')
+
         self.updater.start_webhook(
             listen="0.0.0.0",
-            port=5000,
+            port=port,
             url_path=botkey
         )
 
