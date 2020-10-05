@@ -5,7 +5,7 @@ import logging
 import telegram
 from datetime import datetime
 from dotenv import load_dotenv
-from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, md_to_img
+from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf
 from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
 
@@ -78,7 +78,7 @@ class VaishnaBot():
 
             body = "# Ekadasi dates for this year"
 
-            events = self.get_ekadasi_events(current_year, fetch_by="year")
+            events = self.get_ekadasi_events(int(current_year), fetch_by="year")
 
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -88,9 +88,9 @@ class VaishnaBot():
                 body += f"Starts: {event[5]}\n"
                 body += f"Ends: {events[6]}\n"
                 
-            print(body)
+            body_pdf_encoded_bytes = html_to_pdf(body)
             
-            context.bot.send_message(chat_id=update.effective_chat.id, text=body, parse_mode=ParseMode.MARKDOWN_V2)
+            context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
         else: 
             ekadasi_date = "".join(context.args)
@@ -125,14 +125,14 @@ class VaishnaBot():
                     body += f"Ends: {event[6]}\n"
 
 
-                body_md_img = md_to_img(body)
+                body_pdf_encoded_bytes = html_to_pdf(body)
 
-
-                context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+                context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")            
-        
+
+
     def iskcon_event(self, update, context):
         """
             Get the iskcon events by:
@@ -154,14 +154,10 @@ class VaishnaBot():
                 body += f"+ Month: {event[2]}\n"
                 body += f"+ Day: {event[3]}\n"
             
-            context.bot.send_message(chat_id=update.effective_chat.id, text="I'll send you the iskcon events")
-            # context.bot.send_message(chat_id=update.effective_chat.id, text=body)
-            body_md_img = md_to_img(body)
-            body_md_img.seek(0)
-            print(body_md_img)
-            # body_md_img.show()
+            body_pdf_encoded_bytes = html_to_pdf(body, write=False)
 
-            context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+            context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskcon_events.pdf")
+
 
         else: 
             iskcon_date = "".join(context.args)
@@ -194,9 +190,9 @@ class VaishnaBot():
                     body += f"+ Month: {event[2]}\n"
                     body += f"+ Day: {event[3]}\n"
 
-                body_md_img = md_to_img(body)
+                body_pdf_encoded_bytes = html_to_pdf(body)
 
-                context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+                context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskon_events.pdf")
             
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")            
@@ -208,7 +204,7 @@ class VaishnaBot():
             if fetch_by == "year":
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE year=?", (data,))
             elif fetch_by == "month":
-                cursor.execute("SELECT * FROM ekadasi_dates WHERE month=?", (data, ))
+                cursor.execute("SELECT * FROM ekadasi_dates WHERE month=?", (data,))
             elif fetch_by == "month&year":
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE month=? AND year=?", (data[0], data[1]))
             events = cursor.fetchall()
