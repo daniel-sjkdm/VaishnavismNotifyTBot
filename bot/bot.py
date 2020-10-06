@@ -24,8 +24,7 @@ class VaishnaBot():
     def __init__(self):
 
         self.logger = logging.getLogger(name="vaishnabot")
-        self.vaishnadb = VaishnaDBSQLite()
-
+        
         self.PORT = os.environ.get("PORT", 5000)
 
         self.updater = Updater(token=os.getenv("BOTKEY"), use_context=True)
@@ -70,7 +69,7 @@ class VaishnaBot():
 
             body = "# Ekadasi dates for this year"
 
-            events = self.vaishnadb.get_ekadasi_events(str(current_year), fetch_by="year")
+            events = self.get_ekadasi_events(str(current_year), fetch_by="year")
 
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -98,15 +97,15 @@ class VaishnaBot():
                 
                 if year and month:
                     body = f"# Ekadasi events for {month}-{year}\n"
-                    events = self.vaishnadb.get_ekadasi_events([month, year], fetch_by="month&year")
+                    events = self.get_ekadasi_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Ekadasi events for {year}\n"
-                    events = self.vaishnadb.get_ekadasi_events(year, fetch_by="year")
+                    events = self.get_ekadasi_events(year, fetch_by="year")
 
                 elif month:
                     body = f"# Ekadasi events for {month}\n"
-                    events = self.vaishnadb.get_ekadasi_events(month, fetch_by="month")
+                    events = self.get_ekadasi_events(month, fetch_by="month")
                 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
@@ -137,7 +136,7 @@ class VaishnaBot():
         if not context.args:
             current_year = datetime.today().year
             body = f"# Iskcon {current_year} events\n"
-            events = self.vaishnadb.get_iskcon_events(str(current_year), fetch_by="year")
+            events = self.get_iskcon_events(str(current_year), fetch_by="year")
             
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -164,15 +163,15 @@ class VaishnaBot():
 
                 if year and month:
                     body = f"# Iskcon events for {NUMBER_TO_MONTH[month]}-{year}\n"
-                    events = self.vaishnadb.get_iskcon_events([month, year], fetch_by="month&year")
+                    events = self.get_iskcon_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Iskcon events for {year}\n"
-                    events = self.vaishnadb.get_iskcon_events(year, fetch_by="year")
+                    events = self.get_iskcon_events(year, fetch_by="year")
 
                 elif month:
                     body = f"# Iskcon events for {month}-{2020}\n"
-                    events = self.vaishnadb.get_iskcon_events(month, fetch_by="month")
+                    events = self.get_iskcon_events(month, fetch_by="month")
 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
@@ -185,4 +184,37 @@ class VaishnaBot():
                 context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskon_events.pdf")
             
             else:
-                context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")            
+                context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")       
+
+    def get_iskcon_events(self, data, fetch_by):
+        with sqlite3.connect("data/vaishnadb.db") as conn:
+            cursor = conn.cursor()
+            if fetch_by == "year":
+                print("fetch by year")
+                cursor.execute("SELECT * FROM iskcon_events WHERE year=?", (data,))
+            elif fetch_by == "month":
+                print("fetch by month")
+                cursor.execute("SELECT * FROM iskcon_events WHERE month=?", (data,))
+            else:
+                print("fetch by month and year")
+                cursor.execute("SELECT * FROM iskcon_events WHERE month=? AND year=?", (data[0], data[1]))
+            events = cursor.fetchall()
+            print(events)
+            return events     
+
+
+    def get_ekadasi_events(self, data, fetch_by):
+        with sqlite3.connect("data/vaishnadb.db") as conn:
+            cursor = conn.cursor()
+            if fetch_by == "year":
+                print("fetch by year")
+                cursor.execute("SELECT * FROM ekadasi_dates WHERE year=?", (data,))
+            elif fetch_by == "month":
+                print("fetch by month")
+                cursor.execute("SELECT * FROM ekadasi_dates WHERE month=?", (data,))
+            else:
+                print("fetch by month and year")
+                cursor.execute("SELECT * FROM ekadasi_dates WHERE month=? AND year=?", (data[0], data[1]))
+            events = cursor.fetchall()
+            print(events)
+            return events
