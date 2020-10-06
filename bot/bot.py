@@ -70,7 +70,7 @@ class VaishnaBot():
 
             body = "# Ekadasi dates for this year"
 
-            events = self.vaishnadb.get_ekadasi_events(int(current_year), fetch_by="year")
+            events = self.vaishnadb.get_ekadasi_events(str(current_year), fetch_by="year")
 
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -94,7 +94,7 @@ class VaishnaBot():
                     if len(date) == 2 or len(date) == 1:
                         month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
-                        year = int(date)
+                        year = str(date)
                 
                 if year and month:
                     body = f"# Ekadasi events for {month}-{year}\n"
@@ -137,7 +137,7 @@ class VaishnaBot():
         if not context.args:
             current_year = datetime.today().year
             body = f"# Iskcon {current_year} events\n"
-            events = self.vaishnadb.get_iskcon_events(current_year, fetch_by="year")
+            events = self.vaishnadb.get_iskcon_events(str(current_year), fetch_by="year")
             
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -160,7 +160,7 @@ class VaishnaBot():
                     if len(date) == 2 or len(date) == 1:
                         month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
-                        year = int(date)
+                        year = str(date)
 
                 if year and month:
                     body = f"# Iskcon events for {NUMBER_TO_MONTH[month]}-{year}\n"
