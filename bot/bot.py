@@ -88,7 +88,7 @@ class VaishnaBot():
                 year, month = None, None
 
                 for date in ekadasi_date.split("-"):
-                    if len(date) == 2:
+                    if len(date) == 2 or len(date) == 1:
                         month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
                         year = int(date)
@@ -154,7 +154,7 @@ class VaishnaBot():
             if DATE_PATTERN.fullmatch(iskcon_date):
                 year, month = None, None
                 for date in iskcon_date.split("-"):
-                    if len(date) == 2:
+                    if len(date) == 2 or len(date) == 1:
                         month = int(date)
                     elif len(date) == 4:
                         year = int(date)
@@ -191,7 +191,6 @@ class VaishnaBot():
     def get_ekadasi_events(self, data, fetch_by):
         with sqlite3.connect("data/vaishnadb.db") as conn:
             cursor = conn.cursor()
-            print("--- Ekadasi data: ", data)
             if fetch_by == "year":
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE year=?", (data,))
             elif fetch_by == "month":
@@ -206,7 +205,6 @@ class VaishnaBot():
     def get_iskcon_events(self, data, fetch_by):
         with sqlite3.connect("data/vaishnadb.db") as conn:
             cursor = conn.cursor()
-            print("--- Iskcon data: ", data)
             if fetch_by == "year":
                 cursor.execute("SELECT * FROM iskcon_events WHERE year=?", (data,))
             elif fetch_by == "month":
