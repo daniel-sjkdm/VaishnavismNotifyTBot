@@ -5,9 +5,11 @@ import logging
 import telegram
 from datetime import datetime
 from dotenv import load_dotenv
+from helpers.vaishnadb import VaishnaDB
 from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf, html_to_pdf_v2
 from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
+
 
 
 logging.basicConfig(
@@ -22,6 +24,7 @@ class VaishnaBot():
     def __init__(self):
 
         self.logger = logging.getLogger(name="vaishnabot")
+        self.vaishnadb = VaishnaDB()
 
         self.PORT = os.environ.get("PORT", 5000)
 
@@ -49,7 +52,6 @@ class VaishnaBot():
         
 
     def start(self, update, context):
-        print(update.message)
         context.bot.send_message(chat_id=update.effective_chat.id, text="Hari Bol! Hare Krishna! I'm Vaishnabot")
 
 
@@ -68,7 +70,7 @@ class VaishnaBot():
 
             body = "# Ekadasi dates for this year"
 
-            events = self.get_ekadasi_events(int(current_year), fetch_by="year")
+            events = self.vaishnadb.get_ekadasi_events(int(current_year), fetch_by="year")
 
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -79,6 +81,7 @@ class VaishnaBot():
                 body += f"Ends: {events[6]}\n"
             
             body_pdf_encoded_bytes = html_to_pdf_v2(body)
+            print(body_pdf_encoded_bytes)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
@@ -95,15 +98,15 @@ class VaishnaBot():
                 
                 if year and month:
                     body = f"# Ekadasi events for {month}-{year}\n"
-                    events = self.get_ekadasi_events([month, year], fetch_by="month&year")
+                    events = self.vaishnadb.get_ekadasi_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Ekadasi events for {year}\n"
-                    events = self.get_ekadasi_events(year, fetch_by="year")
+                    events = self.vaishnadb.get_ekadasi_events(year, fetch_by="year")
 
                 elif month:
                     body = f"# Ekadasi events for {month}\n"
-                    events = self.get_ekadasi_events(month, fetch_by="month")
+                    events = self.vaishnadb.get_ekadasi_events(month, fetch_by="month")
                 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
@@ -134,7 +137,7 @@ class VaishnaBot():
         if not context.args:
             current_year = datetime.today().year
             body = f"# Iskcon {current_year} events\n"
-            events = self.get_iskcon_events(current_year, fetch_by="year")
+            events = self.vaishnadb.get_iskcon_events(current_year, fetch_by="year")
             
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -155,24 +158,21 @@ class VaishnaBot():
                 year, month = None, None
                 for date in iskcon_date.split("-"):
                     if len(date) == 2 or len(date) == 1:
-                        month = int(date)
+                        month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
                         year = int(date)
 
                 if year and month:
                     body = f"# Iskcon events for {NUMBER_TO_MONTH[month]}-{year}\n"
-                    events = self.get_iskcon_events([
-                        NUMBER_TO_MONTH[month],
-                        year
-                    ], fetch_by="year&month")
+                    events = self.vaishnadb.get_iskcon_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Iskcon events for {year}\n"
-                    events = self.get_iskcon_events(year, fetch_by="year")
+                    events = self.vaishnadb.get_iskcon_events(year, fetch_by="year")
 
                 elif month:
                     body = f"# Iskcon events for {month}-{2020}\n"
-                    events = self.get_iskcon_events(NUMBER_TO_MONTH[month], fetch_by="month")
+                    events = self.vaishnadb.get_iskcon_events(month, fetch_by="month")
 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
@@ -186,43 +186,3 @@ class VaishnaBot():
             
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")            
-
-
-    def get_ekadasi_events(self, data, fetch_by):
-        with sqlite3.connect("data/vaishnadb.db") as conn:
-            cursor = conn.cursor()
-            if fetch_by == "year":
-                cursor.execute("SELECT * FROM ekadasi_dates WHERE year=?", (data,))
-            elif fetch_by == "month":
-                cursor.execute("SELECT * FROM ekadasi_dates WHERE month=?", (data,))
-            elif fetch_by == "month&year":
-                cursor.execute("SELECT * FROM ekadasi_dates WHERE month=? AND year=?", (data[0], data[1]))
-            events = cursor.fetchall()
-            print(events)
-            return events
-
-
-    def get_iskcon_events(self, data, fetch_by):
-        with sqlite3.connect("data/vaishnadb.db") as conn:
-            cursor = conn.cursor()
-            if fetch_by == "year":
-                cursor.execute("SELECT * FROM iskcon_events WHERE year=?", (data,))
-            elif fetch_by == "month":
-                cursor.execute("SELECT * FROM iskcon_events WHERE month=?", (data,))
-            elif fetch_by == "month&year":
-                cursor.execute("SELECT * FROM iskcon_events WHERE month=? AND year=?", (data[0], data[1]))
-            events = cursor.fetchall()
-            print(events)
-            return events
-
-
-    def get_ekadasi_events_from_file(self):
-        with open("data/ekadasi.csv", "r") as csvfile:
-           events = [ event for event in csv.reader(csvfile, delimiter=",") ]
-        return events
-
-
-    def get_iskcon_events_from_file(self):
-        with open("data/iskcon_events.csv", "r") as csvfile:
-            events = [ event for event in csv.reader(csvfile, delimiter=",") ]
-        return events
