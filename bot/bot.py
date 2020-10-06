@@ -5,7 +5,7 @@ import logging
 import telegram
 from datetime import datetime
 from dotenv import load_dotenv
-from helpers.vaishnadb import VaishnaDB
+from helpers.vaishnadb import VaishnaDBSQLite
 from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf, html_to_pdf_v2
 from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
