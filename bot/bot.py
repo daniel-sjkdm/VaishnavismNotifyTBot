@@ -32,6 +32,7 @@ class VaishnaBot():
         self.updater.dispatcher.add_handler(CommandHandler("start", self.start))
         self.updater.dispatcher.add_handler(CommandHandler("ekadasi", self.ekadasi_event))
         self.updater.dispatcher.add_handler(CommandHandler("iskcon_events", self.iskcon_event))
+        self.updater.dispatcher.add_handler(CommandHandler("remindme", self.remindme))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), self.message_handler))
 
         botkey = os.getenv('BOTKEY')
@@ -58,6 +59,28 @@ class VaishnaBot():
         username = update.message.chat.username 
         human_said = update.message.text
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"You {username} said: {human_said}")
+
+
+    def remindme(self, update, context):
+        if not context.args:
+            text = """
+                I can remind you about events one day before they start so you can be prepared!
+                Just tell me which events of the following you'd like to be reminded:
+                - iskcon events: /remindme iskcon_events
+                - ekadasi: /remindme ekadasi
+                - both: /remindme iskcon_events ekadasi
+                You can also cancel the reminders:
+                - /remindme cancel <event_name> 
+            """
+            context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+
+        else:
+            for arg in context.args:
+                if arg not in ["iskcon_events", "ekadasi", "cancel"]:
+                    context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter valid events!")
+                else:
+                    # add its respective job
+                    pass 
 
 
     def ekadasi_event(self, update, context):
@@ -154,7 +177,7 @@ class VaishnaBot():
 
         else: 
             args = "".join(context.args)
-            if DATE_PATTERN.fullmatch(iskcon_date):
+            if DATE_PATTERN.fullmatch(args):
                 year, month = None, None
                 for date in args.split("-"):
                     if len(date) == 2 or len(date) == 1:
