@@ -1,0 +1,275 @@
+2020-10-04 19:18:05,973 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2020-10-04 20:16:14,519 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:16:21,024 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 164, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 328, in post
+    result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Photo_invalid_dimensions
+2020-10-04 20:16:47,339 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:16:54,157 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 164, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 328, in post
+    result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Photo_invalid_dimensions
+2020-10-04 20:17:02,690 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2020-10-04 20:17:24,550 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:17:33,522 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 164, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 328, in post
+    result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Photo_invalid_dimensions
+2020-10-04 20:17:45,720 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2020-10-04 20:18:13,547 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:30:47,210 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:30:49,713 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 164, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img.getvalue())
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 331, in post
+    body=json.dumps(data).encode('utf-8'),
+  File "/usr/lib/python3.8/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+2020-10-04 20:31:30,049 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:31:42,990 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 164, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=body_md_img)
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 328, in post
+    result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Photo_invalid_dimensions
+2020-10-04 20:40:28,005 - telegram.vendor.ptb_urllib3.urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None)) after connection broken by 'NewConnectionError('<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection object at 0x7f032c396220>: Failed to establish a new connection: [Errno -2] Name or service not known')': /bot1389347832:AAGYg0LhQpTYmynxf27TNawjVQdbP1WEM74/getUpdates
+2020-10-04 20:40:43,013 - telegram.vendor.ptb_urllib3.urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None)) after connection broken by 'NewConnectionError('<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection object at 0x7f032c396580>: Failed to establish a new connection: [Errno -2] Name or service not known')': /bot1389347832:AAGYg0LhQpTYmynxf27TNawjVQdbP1WEM74/getUpdates
+2020-10-04 20:52:18,291 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:52:20,431 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 162, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=open(body_md_img, "rb"))
+TypeError: expected str, bytes or os.PathLike object, not _io.BytesIO
+2020-10-04 20:54:37,809 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:54:38,496 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 160, in iskcon_event
+    body_md_img = md_to_img(body) # path string
+NameError: name 'md_to_img' is not defined
+2020-10-04 20:55:51,620 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 20:55:58,330 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 163, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=open(body_md_img, "rb"))
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 328, in post
+    result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Photo_invalid_dimensions
+2020-10-04 21:21:10,176 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 21:21:16,792 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 163, in iskcon_event
+    context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=open(body_md_img, "rb"))
+  File "<decorator-gen-5>", line 2, in send_photo
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 495, in send_photo
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 328, in post
+    result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Photo_invalid_dimensions
+2020-10-04 21:22:54,192 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 21:22:55,789 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 163, in iskcon_event
+    context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_bytes)
+  File "<decorator-gen-7>", line 2, in send_document
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 671, in send_document
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 331, in post
+    body=json.dumps(data).encode('utf-8'),
+  File "/usr/lib/python3.8/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable2020-10-04 21:27:32,839 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 21:42:28,188 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 21:42:51,669 - vaishnabot - INFO - User DSjkdm requested /ekadasi command
+2020-10-04 21:42:52,170 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 93, in ekadasi_event
+    context.bot.send_message(chat_id=update.effective_chat.id, text=body, parse_mode=ParseMode.MARKDOWN_V2)
+  File "<decorator-gen-2>", line 2, in send_message
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 346, in send_message
+    return self._message(url, data, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 330, in post
+    result = self._request_wrapper('POST', url,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 244, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Can't parse entities: character '#' is reserved and must be escaped with the preceding '\'
+2020-10-04 22:37:19,403 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 22:37:20,690 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 166, in iskcon_event
+    context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes)
+  File "<decorator-gen-7>", line 2, in send_document
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 67, in decorator
+    result = func(*args, **kwargs)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 671, in send_document
+    return self._message(url, data, timeout=timeout, disable_notification=disable_notification,
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/bot.py", line 175, in _message
+    result = self._request.post(url, data, timeout=timeout)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/utils/request.py", line 331, in post
+    body=json.dumps(data).encode('utf-8'),
+  File "/usr/lib/python3.8/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+2020-10-04 22:50:19,458 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2020-10-04 22:50:28,756 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 22:56:35,810 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 22:56:54,644 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 22:57:25,235 - vaishnabot - INFO - User DSjkdm requested /iskcon_events command
+2020-10-04 22:57:46,186 - vaishnabot - INFO - User DSjkdm requested /ekadasi command
+2020-10-04 22:57:46,929 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/dispatcher.py", line 340, in process_update
+    handler.handle_update(update, self, check, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/venv/lib/python3.8/site-packages/telegram/ext/handler.py", line 119, in handle_update
+    return self.callback(update, context)
+  File "/home/sjukdom/Narasimha/Github/VaishnavismNotifyTBot/bot/bot.py", line 93, in ekadasi_event
+    context.bot.send_message(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
+TypeError: send_message() missing 1 required positional argument: 'text'
+2020-10-04 22:58:56,701 - vaishnabot - INFO - User DSjkdm requested /ekadasi command
+2020-10-04 23:01:06,624 - vaishnabot - INFO - User DSjkdm requested /ekadasi command
+2020-10-04 23:01:16,573 - vaishnabot - INFO - User DSjkdm requested /ekadasi command
+2020-10-05 17:19:12,802 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2020-10-05 17:55:10,753 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...

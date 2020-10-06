@@ -1,2 +1,2 @@
-with open("logs.log") as flogs:
+with open("logs.log", "r") as flogs:
     print(flogs.read())

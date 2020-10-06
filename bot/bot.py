@@ -24,7 +24,7 @@ class VaishnaBot():
     def __init__(self):
 
         self.logger = logging.getLogger(name="vaishnabot")
-        self.vaishnadb = VaishnaDB()
+        self.vaishnadb = VaishnaDBSQLite()
 
         self.PORT = os.environ.get("PORT", 5000)
 
