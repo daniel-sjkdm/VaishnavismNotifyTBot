@@ -54,8 +54,14 @@ def html_to_pdf(text, write=False):
         pdfkit.from_string(html_text, output_path=f"tmp/{file_name}")
         return os.path.abspath(f"tmp/{file_name}")
 
-def html_to_pdf_v2(text):
-    md_text = markdown(text, extras=["cuddled-lists"])
-    pdffile = io.BytesIO()
-    pisa.CreatePDF(md_text, dest=pdffile)
-    return io.BufferedReader(pdffile.getvalue())
+# def html_to_pdf_v2(text):
+#     md_text = markdown(text, extras=["cuddled-lists"])
+#     pdffile = io.BytesIO()
+#     pisa.CreatePDF(md_text, dest=pdffile)
+#     return io.BufferedReader(pdffile.getvalue())
+
+def html_to_pdf_v2(text, filename):
+    if not os.path.exists(f"data/{filename}.pdf"):
+        md_text = markdown(text, extras=["cuddled-lists"])
+        pisa.CreatePDF(md_text, dest=f"data/{filename}.pdf")
+    return open(f"data/{filename}.pdf", "rb")
