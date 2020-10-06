@@ -76,32 +76,34 @@ class VaishnaDBSQLite():
     def get_iskcon_events(self, data, fetch_by):
         print(data)
         with sqlite3.connect("data/vaishnadb.db") as conn:
-            with conn.cursor() as cursor:
-                if fetch_by == "year":
-                    cursor.execute("SELECT * FROM iskcon_events WHERE year=%s", (data,))
-                    events = cursor.fetchall()
-                elif fetch_by == "month":
-                    cursor.execute("SELECT * FROM iskcon_events WHERE month=%s", (data,))
-                    events = cursor.fetchall()
-                else:
-                    cursor.execute("SELECT * FROM iskcon_events WHERE month=%s AND year =%s", (data[0], data[1]))
-                    events = cursor.fetchall()
-                print(events)
-                return events
+            print(conn)
+            cursor = conn.cursor()
+            if fetch_by == "year":
+                cursor.execute("SELECT * FROM iskcon_events WHERE year=%s", (data,))
+                events = cursor.fetchall()
+            elif fetch_by == "month":
+                cursor.execute("SELECT * FROM iskcon_events WHERE month=%s", (data,))
+                events = cursor.fetchall()
+            else:
+                cursor.execute("SELECT * FROM iskcon_events WHERE month=%s AND year =%s", (data[0], data[1]))
+                events = cursor.fetchall()
+            print(events)
+            return events
 
 
     def get_ekadasi_events(self, data, fetch_by):
         print(data)
         with sqlite3.connect("data/vaishnadb.db") as conn:
-            with conn.cursor() as cursor:
-                if fetch_by == "year":
-                    cursor.execute("SELECT * FROM ekadasi_events WHERE year=?", (data,))
-                    events = cursor.fetchall()
-                elif fetch_by == "month":
-                    cursor.execute("SELECT * FROM ekadasi_events WHERE month=?", (data,))
-                    events = cursor.fetchall()
-                else:
-                    cursor.execute("SELECT * FROM ekadasi_events WHERE month=? AND year=?", (data[0], data[1]))
-                    events = cursor.fetchall()
-                print(events)
-                return events
+            print(conn)
+            cursor = conn.cursor()
+            if fetch_by == "year":
+                cursor.execute("SELECT * FROM ekadasi_events WHERE year=?", (data,))
+                events = cursor.fetchall()
+            elif fetch_by == "month":
+                cursor.execute("SELECT * FROM ekadasi_events WHERE month=?", (data,))
+                events = cursor.fetchall()
+            else:
+                cursor.execute("SELECT * FROM ekadasi_events WHERE month=? AND year=?", (data[0], data[1]))
+                events = cursor.fetchall()
+            print(events)
+            return events
