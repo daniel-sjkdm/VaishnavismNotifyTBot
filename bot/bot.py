@@ -49,7 +49,6 @@ class VaishnaBot():
         
 
     def start(self, update, context):
-        print(update.message)
         context.bot.send_message(chat_id=update.effective_chat.id, text="Hari Bol! Hare Krishna! I'm Vaishnabot")
 
 
@@ -79,6 +78,7 @@ class VaishnaBot():
                 body += f"Ends: {events[6]}\n"
             
             body_pdf_encoded_bytes = html_to_pdf_v2(body)
+            print(body_pdf_encoded_bytes)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
@@ -155,16 +155,13 @@ class VaishnaBot():
                 year, month = None, None
                 for date in iskcon_date.split("-"):
                     if len(date) == 2 or len(date) == 1:
-                        month = int(date)
+                        month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
                         year = int(date)
 
                 if year and month:
                     body = f"# Iskcon events for {NUMBER_TO_MONTH[month]}-{year}\n"
-                    events = self.get_iskcon_events([
-                        NUMBER_TO_MONTH[month],
-                        year
-                    ], fetch_by="year&month")
+                    events = self.get_iskcon_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Iskcon events for {year}\n"
@@ -172,7 +169,7 @@ class VaishnaBot():
 
                 elif month:
                     body = f"# Iskcon events for {month}-{2020}\n"
-                    events = self.get_iskcon_events(NUMBER_TO_MONTH[month], fetch_by="month")
+                    events = self.get_iskcon_events(month, fetch_by="month")
 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
