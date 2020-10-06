@@ -58,7 +58,4 @@ def html_to_pdf_v2(text):
     md_text = markdown(text, extras=["cuddled-lists"])
     pdffile = io.BytesIO()
     pisa.CreatePDF(md_text, dest=pdffile)
-    print("---  @@@ ---")
-    print(pdffile.getvalue())
-    print(io.BufferedReader(pdffile.getvalue()))
     return io.BufferedReader(pdffile.getvalue())
