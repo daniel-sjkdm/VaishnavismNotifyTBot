@@ -10,17 +10,11 @@ from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
 
 
-
-# TODO 
-# - [ ] 
-
-
 logging.basicConfig(
     filename="logs.log",
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO
 )
-
 
 
 class VaishnaBot():
@@ -66,22 +60,6 @@ class VaishnaBot():
 
 
     def ekadasi_event(self, update, context):
-        """
-            Get the ekadasi events by:
-                * month (argument)
-                    * current year (default)
-                    * specified by user (argument)
-                * year (argument)
-                * default: all from current year
-
-            The dates sent by the user must be in the formats: 
-                mm-YYYY
-                YYYY-mm
-                YYYY
-                mm (current year)
-                
-                months are allowed to be numbers 1-12 or strings (january, ..., december)
-        """
         self.logger.info("User {} requested /ekadasi command".format(update.message.chat.username))
                 
         if not context.args: 
