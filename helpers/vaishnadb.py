@@ -74,6 +74,7 @@ class VaishnaDBPG():
 class VaishnaDBSQLite():
     
     def get_iskcon_events(self, data, fetch_by):
+        print(data)
         with sqlite3.connect("data/vaishnadb.db") as conn:
             with conn.cursor() as cursor:
                 if fetch_by == "year":
@@ -90,6 +91,7 @@ class VaishnaDBSQLite():
 
 
     def get_ekadasi_events(self, data, fetch_by):
+        print(data)
         with sqlite3.connect("data/vaishnadb.db") as conn:
             with conn.cursor() as cursor:
                 if fetch_by == "year":
