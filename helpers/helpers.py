@@ -60,5 +60,5 @@ def html_to_pdf_v2(text):
     pisa.CreatePDF(md_text, dest=pdffile)
     print("---  @@@ ---")
     print(pdffile.getvalue())
-    print(io.BufferedReader(pdffile.getvalue())
+    print(io.BufferedReader(pdffile.getvalue()))
     return io.BufferedReader(pdffile.getvalue())
