@@ -80,16 +80,15 @@ class VaishnaBot():
                 body += f"Ends: {events[6]}\n"
             
             body_pdf_encoded_bytes = html_to_pdf_v2(body)
-            print(body_pdf_encoded_bytes)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
         else:
-            ekadasi_date = "".join(context.args)
-            if DATE_PATTERN.fullmatch(ekadasi_date):
+            args = "".join(context.args)
+            if DATE_PATTERN.fullmatch(args):
                 year, month = None, None
 
-                for date in ekadasi_date.split("-"):
+                for date in args.split("-"):
                     if len(date) == 2 or len(date) == 1:
                         month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
@@ -97,6 +96,7 @@ class VaishnaBot():
                 
                 if year and month:
                     body = f"# Ekadasi events for {month}-{year}\n"
+                    print([month, year])
                     events = self.get_ekadasi_events([month, year], fetch_by="month&year")
 
                 elif year:
@@ -116,11 +116,13 @@ class VaishnaBot():
                     body += f"Ends: {event[6]}\n"
 
                 body_pdf_encoded_bytes = html_to_pdf_v2(body)
+                print(body_pdf_encoded_bytes)
 
                 context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
             else:
-                context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")            
+                context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")    
+        
 
 
     def iskcon_event(self, update, context):
@@ -144,25 +146,25 @@ class VaishnaBot():
                 body += f"+ Month: {event[2]}\n"
                 body += f"+ Day: {event[3]}\n"
             
-            body_pdf_encoded_bytes = html_to_pdf_v2(body, write=False)
-
+            body_pdf_encoded_bytes = html_to_pdf_v2(body)
             print(body_pdf_encoded_bytes)
 
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskcon_events.pdf")
 
 
         else: 
-            iskcon_date = "".join(context.args)
+            args = "".join(context.args)
             if DATE_PATTERN.fullmatch(iskcon_date):
                 year, month = None, None
-                for date in iskcon_date.split("-"):
+                for date in args.split("-"):
                     if len(date) == 2 or len(date) == 1:
                         month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
                         year = str(date)
 
                 if year and month:
-                    body = f"# Iskcon events for {NUMBER_TO_MONTH[month]}-{year}\n"
+                    body = f"# Iskcon events for {month}-{year}\n"
+                    print([month, year])
                     events = self.get_iskcon_events([month, year], fetch_by="month&year")
 
                 elif year:
@@ -186,6 +188,7 @@ class VaishnaBot():
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")       
 
+
     def get_iskcon_events(self, data, fetch_by):
         with sqlite3.connect("data/vaishnadb.db") as conn:
             cursor = conn.cursor()
@@ -195,7 +198,7 @@ class VaishnaBot():
             elif fetch_by == "month":
                 print("fetch by month")
                 cursor.execute("SELECT * FROM iskcon_events WHERE month=?", (data,))
-            else:
+            elif fetch_by == "month&year":
                 print("fetch by month and year")
                 cursor.execute("SELECT * FROM iskcon_events WHERE month=? AND year=?", (data[0], data[1]))
             events = cursor.fetchall()
@@ -212,7 +215,7 @@ class VaishnaBot():
             elif fetch_by == "month":
                 print("fetch by month")
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE month=?", (data,))
-            else:
+            elif fetch_by == "month&year":
                 print("fetch by month and year")
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE month=? AND year=?", (data[0], data[1]))
             events = cursor.fetchall()
