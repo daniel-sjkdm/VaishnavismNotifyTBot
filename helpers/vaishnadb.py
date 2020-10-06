@@ -13,6 +13,8 @@ class VaishnaDB():
 
     def get_db_connection(self):
 
+        print("Requested a connection to the database")
+
         connection = psycopg2.connect(
             dbname=self.dbname,
             host=self.host,
@@ -31,7 +33,9 @@ class VaishnaDB():
     def get_iskcon_events(self, data, fetch_by):
         print("fetch iskcon events")
         with self.get_db_connection() as conn:
+            print("1. Connection = ", conn.status)
             with conn.cursor() as cursor:
+                print("2. Cursor = ", cursor)
                 if fetch_by == "year":
                     cursor.execute("SELECT * FROM iskcon_events WHERE year=%s", (data,))
                     events = cursor.fetchall()
@@ -45,9 +49,11 @@ class VaishnaDB():
                 return events
 
     def get_ekadasi_events(self, data, fetch_by):
-        print("Fetch ekadasi events")
+        print("1. Fetch ekadasi events")
         with self.get_db_connection() as conn:
+            print("2. Connection = ", conn.status)
             with conn as cursor:
+                print("3. Cursor = ", cursor)
                 if fetch_by == "year":
                     cursor.execute("SELECT * FROM ekadasi_events WHERE year=%s", (data,))
                     events = cursor.fetchall()
