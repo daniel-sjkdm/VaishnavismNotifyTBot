@@ -6,6 +6,7 @@ import re
 import io
 import random
 import os
+from xhtml2pdf import pisa
 
 
 MONTH_TO_NUMBER = {
@@ -52,3 +53,9 @@ def html_to_pdf(text, write=False):
         file_name = "".join(map(str, [random.randint(0,100) for n in range(10)])) + ".pdf"
         pdfkit.from_string(html_text, output_path=f"tmp/{file_name}")
         return os.path.abspath(f"tmp/{file_name}")
+
+def html_to_pdf_v2(text):
+    md_text = markdown(text, extras=["cuddled-lists"])
+    pdffile = io.BytesIO()
+    pisa.CreatePDF(md_text, dest=pdffile)
+    return io.BufferedReader(pdffile.getvalue())

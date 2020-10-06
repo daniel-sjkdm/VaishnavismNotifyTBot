@@ -5,7 +5,7 @@ import logging
 import telegram
 from datetime import datetime
 from dotenv import load_dotenv
-from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf
+from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf, html_to_pdf_v2
 from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
 
@@ -100,7 +100,7 @@ class VaishnaBot():
                 body += f"Starts: {event[5]}\n"
                 body += f"Ends: {events[6]}\n"
             
-            body_pdf_encoded_bytes = html_to_pdf(body)
+            body_pdf_encoded_bytes = html_to_pdf_v2(body)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
@@ -135,7 +135,7 @@ class VaishnaBot():
                     body += f"Starts: {event[5]}\n"
                     body += f"Ends: {event[6]}\n"
 
-                body_pdf_encoded_bytes = html_to_pdf(body)
+                body_pdf_encoded_bytes = html_to_pdf_v2(body)
 
                 context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
@@ -164,7 +164,7 @@ class VaishnaBot():
                 body += f"+ Month: {event[2]}\n"
                 body += f"+ Day: {event[3]}\n"
             
-            body_pdf_encoded_bytes = html_to_pdf(body, write=False)
+            body_pdf_encoded_bytes = html_to_pdf_v2(body, write=False)
 
             print(body_pdf_encoded_bytes)
 
@@ -202,7 +202,7 @@ class VaishnaBot():
                     body += f"+ Month: {event[2]}\n"
                     body += f"+ Day: {event[3]}\n"
 
-                body_pdf_encoded_bytes = html_to_pdf(body)
+                body_pdf_encoded_bytes = html_to_pdf_v2(body)
 
                 context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskon_events.pdf")
             
