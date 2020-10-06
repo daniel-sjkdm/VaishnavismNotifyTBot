@@ -32,8 +32,9 @@ class VaishnaDB():
                     return cursor.fetchall()
                 else:
                     cursor.execute("SELECT * FROM iskcon_events WHERE month=%s AND year =%s", (data[0], data[1]))
-                    return cursor.fetchall()
-                
+                    events = cursor.fetchall()
+                    print(events)
+                    return events
 
     def get_ekadasi_events(self, data, fetch_by):
         with self.get_db_connection() as conn:
@@ -46,4 +47,6 @@ class VaishnaDB():
                     return cursor.fetchall()
                 else:
                     cursor.execute("SELECT * FROM ekadasi_events WHERE month=%s AND year =%s", (data[0], data[1]))
-                    return cursor.fetchall()
+                    events = cursor.fetchall()
+                    print(events)
+                    return events
