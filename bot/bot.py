@@ -191,6 +191,7 @@ class VaishnaBot():
     def get_ekadasi_events(self, data, fetch_by):
         with sqlite3.connect("data/vaishnadb.db") as conn:
             cursor = conn.cursor()
+            print("--- Ekadasi data: ", data)
             if fetch_by == "year":
                 cursor.execute("SELECT * FROM ekadasi_dates WHERE year=?", (data,))
             elif fetch_by == "month":
@@ -205,6 +206,7 @@ class VaishnaBot():
     def get_iskcon_events(self, data, fetch_by):
         with sqlite3.connect("data/vaishnadb.db") as conn:
             cursor = conn.cursor()
+            print("--- Iskcon data: ", data)
             if fetch_by == "year":
                 cursor.execute("SELECT * FROM iskcon_events WHERE year=?", (data,))
             elif fetch_by == "month":
