@@ -1,4 +1,4 @@
-from helpers.vaishnadb import VaishnaDBPG()
+from helpers.vaishnadb import VaishnaDBPG
 
 vdb = VaishnaDBPG()
 
