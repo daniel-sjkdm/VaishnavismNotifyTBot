@@ -105,7 +105,7 @@ class VaishnaBot():
             body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"ekadasi_{current_year}")
             print(body_pdf_encoded_bytes)
             
-            context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
+            context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="ekadasi.pdf")
 
         else:
             args = "".join(context.args)
@@ -142,7 +142,7 @@ class VaishnaBot():
                 body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"ekadasi_{args}")
                 print(body_pdf_encoded_bytes)
 
-                context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
+                context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="ekadasi.pdf")
 
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")    
@@ -173,8 +173,7 @@ class VaishnaBot():
             body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"iskcon_events_{current_year}")
             print(body_pdf_encoded_bytes)
 
-            context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskcon_events.pdf")
-
+            context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="iskcon_events.pdf")
 
         else: 
             args = "".join(context.args)
@@ -207,7 +206,7 @@ class VaishnaBot():
                 body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"iskcon_events_{args}")
                 print(body_pdf_encoded_bytes)
 
-                context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskon_events.pdf")
+                context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="iskon_events.pdf")
             
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")       
