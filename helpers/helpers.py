@@ -62,6 +62,9 @@ def html_to_pdf(text, write=False):
 
 def html_to_pdf_v2(text, filename):
     if not os.path.exists(f"data/{filename}.pdf"):
+        print("File doesn't exist")
         md_text = markdown(text, extras=["cuddled-lists"])
         pisa.CreatePDF(md_text, dest=f"data/{filename}.pdf")
-    return open(f"data/{filename}.pdf", "rb")
+    else:
+        print("File exists")
+    return f"data/{filename}.pdf"
