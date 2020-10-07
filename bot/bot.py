@@ -103,6 +103,7 @@ class VaishnaBot():
                 body += f"Ends: {events[6]}\n"
             
             body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"ekadasi_{current_year}")
+            print(body_pdf_encoded_bytes)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
 
@@ -170,6 +171,7 @@ class VaishnaBot():
                 body += f"+ Day: {event[3]}\n"
             
             body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"iskcon_events_{current_year}")
+            print(body_pdf_encoded_bytes)
 
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskcon_events.pdf")
 
@@ -186,7 +188,6 @@ class VaishnaBot():
 
                 if year and month:
                     body = f"# Iskcon events for {month}-{year}\n"
-                    print([month, year])
                     events = self.get_iskcon_events([month, year], fetch_by="month&year")
 
                 elif year:
@@ -204,6 +205,7 @@ class VaishnaBot():
                     body += f"+ Day: {event[3]}\n"
 
                 body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"iskcon_events_{args}")
+                print(body_pdf_encoded_bytes)
 
                 context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskon_events.pdf")
             
