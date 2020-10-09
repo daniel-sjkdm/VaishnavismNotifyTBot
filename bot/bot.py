@@ -23,7 +23,6 @@ class VaishnaBot():
     def __init__(self):
 
         self.logger = logging.getLogger()
-        self.logger.addHandler(log_handler)
         
         self.vaishnadb = VaishnaDBPG(name="vaishnabot")
 
