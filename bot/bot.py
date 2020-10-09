@@ -5,7 +5,7 @@ import logging
 import telegram
 from datetime import datetime
 from dotenv import load_dotenv
-from helpers.vaishnadb import VaishnaDBSQLite
+from helpers.vaishnadb import VaishnaDBPG
 from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf, html_to_pdf_v2
 from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
@@ -18,14 +18,21 @@ logging.basicConfig(
     level=logging.INFO
 )
 
+log_handler = logging.StreamHandler(os.sys.stdout)
+log_handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_handler.setFormatter(formatter)
+
+
 
 class VaishnaBot():
     load_dotenv()
     def __init__(self):
 
-        self.logger = logging.getLogger(name="vaishnabot")
+        self.logger = logging.getLogger()
+        self.logger.addHandler(log_handler)
         
-        self.PORT = os.environ.get("PORT", 5000)
+        self.vaishnadb = VaishnaDBPG()
 
         self.updater = Updater(token=os.getenv("BOTKEY"), use_context=True)
         
@@ -35,16 +42,7 @@ class VaishnaBot():
         self.updater.dispatcher.add_handler(CommandHandler("remindme", self.remindme))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), self.message_handler))
 
-        botkey = os.getenv('BOTKEY')
-        port = os.getenv('PORT')
-
-        self.updater.start_webhook(
-            listen="0.0.0.0",
-            port=port,
-            url_path=botkey
-        )
-
-        self.updater.bot.setWebhook(f"https://vaishnabot.herokuapp.com/{botkey}")
+        self.updater.start_polling()
 
         print("Vaishnabot initialized!")
 
@@ -92,7 +90,7 @@ class VaishnaBot():
 
             body = "# Ekadasi dates for this year"
 
-            events = self.get_ekadasi_events(current_year, fetch_by="year")
+            events = self.vaishnadb.get_ekadasi_events(current_year, fetch_by="year")
 
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -102,8 +100,7 @@ class VaishnaBot():
                 body += f"Starts: {event[5]}\n"
                 body += f"Ends: {events[6]}\n"
             
-            body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"ekadasi_{current_year}")
-            print(body_pdf_encoded_bytes)
+            body_pdf_encoded_bytes = html_to_pdf_v2(body)
             
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="ekadasi.pdf")
 
@@ -145,8 +142,7 @@ class VaishnaBot():
                 context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="ekadasi.pdf")
 
             else:
-                context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")    
-        
+                context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")
 
 
     def iskcon_event(self, update, context):
@@ -170,8 +166,7 @@ class VaishnaBot():
                 body += f"+ Month: {event[2]}\n"
                 body += f"+ Day: {event[3]}\n"
             
-            body_pdf_encoded_bytes = html_to_pdf_v2(body, filename=f"iskcon_events_{current_year}")
-            print(body_pdf_encoded_bytes)
+            body_pdf_encoded_bytes = html_to_pdf_v2(body)
 
             context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(body_pdf_encoded_bytes, "rb"), filename="iskcon_events.pdf")
 
@@ -183,11 +178,11 @@ class VaishnaBot():
                     if len(date) == 2 or len(date) == 1:
                         month = NUMBER_TO_MONTH[int(date)]
                     elif len(date) == 4:
-                        year = str(date)
+                        year = date
 
                 if year and month:
                     body = f"# Iskcon events for {month}-{year}\n"
-                    events = self.get_iskcon_events([month, year], fetch_by="month&year")
+                    events = self.vaishnadb.get_iskcon_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Iskcon events for {year}\n"
