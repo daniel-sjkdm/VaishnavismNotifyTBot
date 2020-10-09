@@ -117,15 +117,15 @@ class VaishnaBot():
                 if year and month:
                     body = f"# Ekadasi events for {month}-{year}\n"
                     print([month, year])
-                    events = self.get_ekadasi_events([month, year], fetch_by="month&year")
+                    events = self.vaishnadb.get_ekadasi_events([month, year], fetch_by="month&year")
 
                 elif year:
                     body = f"# Ekadasi events for {year}\n"
-                    events = self.get_ekadasi_events(year, fetch_by="year")
+                    events = self.vaishnadb.get_ekadasi_events(year, fetch_by="year")
 
                 elif month:
                     body = f"# Ekadasi events for {month}\n"
-                    events = self.get_ekadasi_events(month, fetch_by="month")
+                    events = self.vaishnadb.get_ekadasi_events(month, fetch_by="month")
                 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
@@ -156,7 +156,7 @@ class VaishnaBot():
         if not context.args:
             current_year = str(datetime.today().year)
             body = f"# Iskcon {current_year} events\n"
-            events = self.get_iskcon_events(str(current_year), fetch_by="year")
+            events = self.vaishnadb.get_iskcon_events(str(current_year), fetch_by="year")
             
             for event in events:
                 body += f"\n## {event[1]}\n\n"
@@ -184,11 +184,11 @@ class VaishnaBot():
 
                 elif year:
                     body = f"# Iskcon events for {year}\n"
-                    events = self.get_iskcon_events(year, fetch_by="year")
+                    events = self.vaishnadb.get_iskcon_events(year, fetch_by="year")
 
                 elif month:
                     body = f"# Iskcon events for {month}-{2020}\n"
-                    events = self.get_iskcon_events(month, fetch_by="month")
+                    events = self.vaishnadb.get_iskcon_events(month, fetch_by="month")
 
                 for event in events:
                     body += f"\n## {event[1]}\n\n"
