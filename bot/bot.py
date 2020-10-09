@@ -116,7 +116,6 @@ class VaishnaBot():
                 
                 if year and month:
                     body = f"# Ekadasi events for {month}-{year}\n"
-                    print([month, year])
                     events = self.vaishnadb.get_ekadasi_events([month, year], fetch_by="month&year")
 
                 elif year:
