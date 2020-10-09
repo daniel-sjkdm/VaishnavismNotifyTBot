@@ -18,21 +18,14 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-log_handler = logging.StreamHandler(os.sys.stdout)
-log_handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-log_handler.setFormatter(formatter)
-
-
 
 class VaishnaBot():
-    load_dotenv()
     def __init__(self):
 
         self.logger = logging.getLogger()
         self.logger.addHandler(log_handler)
         
-        self.vaishnadb = VaishnaDBPG()
+        self.vaishnadb = VaishnaDBPG(name="vaishnabot")
 
         self.updater = Updater(token=os.getenv("BOTKEY"), use_context=True)
         
@@ -42,7 +35,14 @@ class VaishnaBot():
         self.updater.dispatcher.add_handler(CommandHandler("remindme", self.remindme))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), self.message_handler))
 
-        self.updater.start_polling()
+        self.botkey = os.getenv("BOTKEY")
+        
+        self.updater.start_webhook(listen="0.0.0.0",
+                          port=os.getenv("PORT"),
+                          url_path=self.botkey
+        )
+
+        self.updater.bot.setWebhook(f"https://vaishnabot.herokuapp.com/{self.botkey}")
 
         print("Vaishnabot initialized!")
 
