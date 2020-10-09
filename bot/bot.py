@@ -22,9 +22,9 @@ logging.basicConfig(
 class VaishnaBot():
     def __init__(self):
 
-        self.logger = logging.getLogger()
+        self.logger = logging.getLogger(name="vaishnabot")
         
-        self.vaishnadb = VaishnaDBPG(name="vaishnabot")
+        self.vaishnadb = VaishnaDBPG()
 
         self.updater = Updater(token=os.getenv("BOTKEY"), use_context=True)
         
