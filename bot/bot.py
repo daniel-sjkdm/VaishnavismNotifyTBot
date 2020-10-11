@@ -19,11 +19,17 @@ logging.basicConfig(
     level=logging.INFO
 )
 
+log_handler = logging.StreamHandler(os.sys.stdout)
+log_handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_handler.setFormatter(formatter)
+
 
 class VaishnaBot():
     def __init__(self):
 
         self.logger = logging.getLogger(name="vaishnabot")
+        self.logger.addHandler(log_handler)
         
         self.vaishnadb = VaishnaDB()
 
