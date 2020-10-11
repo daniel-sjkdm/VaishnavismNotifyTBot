@@ -1,0 +1,90 @@
+.header {
+    margin: 20px 20px;
+    text-align: center;
+}
+
+.subheader {
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 10px;
+}
+
+.event-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.event-wrapper {
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 2px 7px 7px rgba(194,184,194,0.43);
+    -moz-box-shadow: 0px 2px 7px 7px rgba(194,184,194,0.43);
+    box-shadow: 0px 2px 7px 7px rgba(194,184,194,0.43);
+    width: 1000px;
+    height: 350px;
+    margin: 40px 20px;
+    padding: 5px 5px;
+}
+
+.event-title {
+    text-align: center;
+    font-size: 16px;
+}
+
+.event-date {
+    text-align: left;
+    font-size: 14px;
+}
+
+.event-body {
+    font-size: small;
+}
+
+.event-time {
+    font-size: 14px;
+}
+
+.event-date-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.event-title {
+    text-align: center;
+    font-size: 16px;
+    margin: 20px;
+}
+
+.event-date {
+    text-align: left;
+    font-size: 14px;
+}
+
+.event-body {
+    font-size: small;
+    margin: 10px 30px;
+    text-align: justify;
+}
+
+.event-time {
+    font-size: 14px;
+}
+
+.event-date-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.description {
+    text-align: justify;
+    padding: 10px 10px;
+    font-size: 14px;
+}

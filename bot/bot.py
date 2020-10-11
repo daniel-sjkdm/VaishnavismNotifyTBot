@@ -5,8 +5,9 @@ import logging
 import telegram
 from datetime import datetime
 from dotenv import load_dotenv
-from helpers.vaishnadb import VaishnaDBPG
-from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, html_to_pdf_v2
+from helpers.beautify import beautify_to_pdf
+from helpers.vaishnadb import VaishnaDB
+from helpers.helpers import DATE_PATTERN, NUMBER_TO_MONTH, events_to_dict
 from telegram.parsemode import ParseMode
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters
 
@@ -24,11 +25,12 @@ class VaishnaBot():
 
         self.logger = logging.getLogger(name="vaishnabot")
         
-        self.vaishnadb = VaishnaDBPG()
+        self.vaishnadb = VaishnaDB()
 
         self.updater = Updater(token=os.getenv("BOTKEY"), use_context=True)
         
         self.updater.dispatcher.add_handler(CommandHandler("start", self.start))
+        self.updater.dispatcher.add_handler(CommandHandler("help", self.help))
         self.updater.dispatcher.add_handler(CommandHandler("ekadasi", self.ekadasi_event))
         self.updater.dispatcher.add_handler(CommandHandler("iskcon_events", self.iskcon_event))
         self.updater.dispatcher.add_handler(CommandHandler("remindme", self.remindme))
@@ -49,25 +51,78 @@ class VaishnaBot():
         
 
     def start(self, update, context):
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Hari Bol! Hare Krishna! I'm Vaishnabot")
+        username = update.message.chat.username
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"Hello {username}! Hare Krishna! I'm Vaishnabot, you can know more about me running the /help command")
+
+    
+    def help(self, update, context):
+        text = """Hi I'm Vaishnabot. You can send me commands to receive events and to remind you about them one day before.
+
+        The commands you can send me are:
+
+        * Events
+
+        /ekadasi <args>
+        /iskcon_events <args>
+
+        Where args: <mm>, <YYYY>, <mm>-<YYYY>, <YYYY>-<mm>
+
+        * Reminder
+
+        /remindme <args>
+        
+        Where args: <ekadasi>, <iskcon_events>
+        """
+        context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
     def message_handler(self, update, context):
-        username = update.message.chat.username 
+        username = update.message.chat.username
         human_said = update.message.text
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"You {username} said: {human_said}")
+
+
+    @staticmethod
+    def callback_ekadasi(context):
+        """
+            Get the ekadasi date for the current month starting from the day the function
+            was called. The interval gets updated to next event one dat be4 it starts. 
+        """
+        username = update.message.chat.username
+        ekadasi_name = "Krishna"
+        starts = "08:20 AM"
+        ends = "12:12 PM"
+
+        text = f"""
+        Hello {username}! just to remmind you that tomorrow's ekadasi {ekadasi_name}, so you must be prepared.
+        It starts from {starts} to {ends}.
+        """
+
+        job = context.job
+        print(job.interval)
+        print(job)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+
+
+    @staticmethod
+    def callback_iskcon_events(context):
+        text = "Reminder for Iskcon events"
+        context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
     def remindme(self, update, context):
         if not context.args:
             text = """
-                I can remind you about events one day before they start so you can be prepared!
-                Just tell me which events of the following you'd like to be reminded:
-                - iskcon events: /remindme iskcon_events
-                - ekadasi: /remindme ekadasi
-                - both: /remindme iskcon_events ekadasi
-                You can also cancel the reminders:
-                - /remindme cancel <event_name> 
+            I can remind you about events one day before they start so you can be prepared! Just tell me which events of the following you'd like to be reminded:
+
+            - iskcon events: /remindme iskcon_events
+            - ekadasi: /remindme ekadasi
+            - both: /remindme iskcon_events ekadasi
+
+            You can also cancel the reminders:
+
+            - /remindme cancel <event_name> 
             """
             context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
@@ -76,67 +131,79 @@ class VaishnaBot():
                 if arg not in ["iskcon_events", "ekadasi", "cancel"]:
                     context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter valid events!")
                 else:
-                    # add its respective job
-                    pass 
+                    args = "".join(context.args)
+                    if args == "iskcon_events":
+                        print("iskcon events reminder")
+                        iskcon_events_job = self.updater.job_queue.run_repeating(callback_iskcon_events, interval=1)
+                    elif args == "ekadasi":
+                        print("ekadasi reminder")
+                        ekadasi_job = self.updater.job_queue.run_repeating(callback_ekadasi, interval=10)
+                    elif args == "cancel":
+                        pass
+                    context.bot.send_message(chat_id=update.effective_chat.id, text=f"I will remind you about {args} one day after it starts so you can be prepared")
 
-
+                
     def ekadasi_event(self, update, context):
         self.logger.info("User {} requested /ekadasi command".format(update.message.chat.username))
                 
         if not context.args: 
             context.bot.send_message(chat_id=update.effective_chat.id, text="I'll show you the Ekadasi dates for this year")
             current_year = str(datetime.today().year)
-
-            body = "# Ekadasi dates for this year"
-
             events = self.vaishnadb.get_ekadasi_events(current_year, fetch_by="year")
+            events_dict = events_to_dict(events, kind="ekadasi")
 
-            for event in events:
-                body += f"\n## {event[1]}\n\n"
-                body += f"Month: {event[3]}\n"
-                body += f"Day: {event[2]}\n"
-                body += f"Year: {event[4]}\n"
-                body += f"Starts: {event[5]}\n"
-                body += f"Ends: {events[6]}\n"
+            data = {
+                "events": events_dict,
+                "year": current_year,
+                "month": ""
+            }
+
+            pdf_encoded_bytes = beautify_to_pdf(data, kind="ekadasi")
             
-            body_pdf_encoded_bytes = html_to_pdf_v2(body)
-            
-            context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
+            context.bot.sendDocument(chat_id=update.effective_chat.id, document=pdf_encoded_bytes, filename="ekadasi.pdf")
 
         else:
             args = "".join(context.args)
+
+            data = {}
+            
             if DATE_PATTERN.fullmatch(args):
                 year, month = None, None
 
                 for date in args.split("-"):
-                    if len(date) == 2 or len(date) == 1:
-                        month = NUMBER_TO_MONTH[int(date)]
+                    if len(date) == 2:
+                        month = str(date)
+                    elif len(date) == 1:
+                        month = "0" + str(date)
                     elif len(date) == 4:
                         year = str(date)
                 
                 if year and month:
-                    body = f"# Ekadasi events for {month}-{year}\n"
-                    events = self.vaishnadb.get_ekadasi_events([month, year], fetch_by="month&year")
+                    events = self.vaishnadb.get_ekadasi_events([year, month], fetch_by="month&year")
 
                 elif year:
-                    body = f"# Ekadasi events for {year}\n"
                     events = self.vaishnadb.get_ekadasi_events(year, fetch_by="year")
 
                 elif month:
-                    body = f"# Ekadasi events for {month}\n"
                     events = self.vaishnadb.get_ekadasi_events(month, fetch_by="month")
                 
-                for event in events:
-                    body += f"\n## {event[1]}\n\n"
-                    body += f"Month: {event[3]}\n"
-                    body += f"Day: {event[2]}\n"
-                    body += f"Year: {event[4]}\n"
-                    body += f"Starts: {event[5]}\n"
-                    body += f"Ends: {event[6]}\n"
 
-                body_pdf_encoded_bytes = html_to_pdf_v2(body)
+                if events:
+                    events_dict = events_to_dict(events, kind="ekadasi")
+                    data["events"] = events_dict
 
-                context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="ekadasi.pdf")
+                    if not year:
+                        data["year"] = str(datetime.today().year)
+                    else:
+                        data["year"] = year
+
+                    try:
+                        data["month"] = NUMBER_TO_MONTH[int(month)]
+                    except:
+                        data["month"] = ""
+                
+                    pdf_encoded_bytes = beautify_to_pdf(data, kind="ekadasi")
+                    context.bot.sendDocument(chat_id=update.effective_chat.id, document=pdf_encoded_bytes, filename="ekadasi.pdf")
 
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")
@@ -154,50 +221,61 @@ class VaishnaBot():
 
         if not context.args:
             current_year = str(datetime.today().year)
-            body = f"# Iskcon {current_year} events\n"
-            events = self.vaishnadb.get_iskcon_events(str(current_year), fetch_by="year")
+            events = self.vaishnadb.get_iskcon_events(current_year, fetch_by="year")
             
-            for event in events:
-                body += f"\n## {event[1]}\n\n"
-                body += f"+ Year: {event[4]}\n"
-                body += f"+ Month: {event[2]}\n"
-                body += f"+ Day: {event[3]}\n"
-            
-            body_pdf_encoded_bytes = html_to_pdf_v2(body)
+            events_dict = events_to_dict(events, kind="iskcon")
+           
+            data = {
+                "events": events_dict,
+                "year": current_year,
+                "month": ""
+            }
 
-            context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskcon_events.pdf")
+            pdf_encoded_bytes = beautify_to_pdf(data, kind="iskcon_events")
+
+            context.bot.sendDocument(chat_id=update.effective_chat.id, document=pdf_encoded_bytes, filename="iskcon_events.pdf")
 
         else: 
             args = "".join(context.args)
+
+            data = {}
+
             if DATE_PATTERN.fullmatch(args):
                 year, month = None, None
                 for date in args.split("-"):
-                    if len(date) == 2 or len(date) == 1:
-                        month = NUMBER_TO_MONTH[int(date)]
+                    if len(date) == 2:
+                        month = str(date)
+                    elif len(date) == 1:
+                        month = "0" + str(date)
                     elif len(date) == 4:
-                        year = date
+                        year = str(date)
 
                 if year and month:
-                    body = f"# Iskcon events for {month}-{year}\n"
-                    events = self.vaishnadb.get_iskcon_events([month, year], fetch_by="month&year")
+                    events = self.vaishnadb.get_iskcon_events([year, month], fetch_by="month&year")
 
                 elif year:
-                    body = f"# Iskcon events for {year}\n"
                     events = self.vaishnadb.get_iskcon_events(year, fetch_by="year")
 
                 elif month:
-                    body = f"# Iskcon events for {month}-{2020}\n"
                     events = self.vaishnadb.get_iskcon_events(month, fetch_by="month")
 
-                for event in events:
-                    body += f"\n## {event[1]}\n\n"
-                    body += f"+ Year: {event[4]}\n"
-                    body += f"+ Month: {event[2]}\n"
-                    body += f"+ Day: {event[3]}\n"
+                if events:
 
-                body_pdf_encoded_bytes = html_to_pdf_v2(body)
+                    events_dict = events_to_dict(events, kind="iskcon")
+                    data["events"] = events_dict
 
-                context.bot.sendDocument(chat_id=update.effective_chat.id, document=body_pdf_encoded_bytes, filename="iskon_events.pdf")
+                    if not year:
+                        data["year"] = str(datetime.today().year)
+                    else:
+                        data["year"] = year
+
+                    if not month:
+                        data["month"] = ""
+                    else:
+                        data["month"] = NUMBER_TO_MONTH[int(month)]
+
+                    pdf_encoded_bytes = beautify_to_pdf(data, kind="iskcon_events")
+                    context.bot.sendDocument(chat_id=update.effective_chat.id, document=pdf_encoded_bytes, filename="iskcon_events.pdf")
             
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text="Make sure to enter a valid date")

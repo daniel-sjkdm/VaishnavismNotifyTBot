@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title> {{ title }} </title>
+{% endblock %}
+
+{% block header %}
+    <h1 class="header"> Ekadasi </h1>
+    {% if month %}
+        <p class="subheader"> The following content are the events for the month {{ month }} on year {{ year }} </p>
+    {% else %}
+        <p class="subheader"> The following content are the events for the {{ year }} year </p>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+
+        <h6 style="padding: 10px;"> Meaning: </h6>
+
+        <p class="description">
+            Ekadasi is spiritual day in Hinduism and Jainism that occurs twice in each lunar month and is marked by fasting or partial fasting.
+            The name is the Sanskrit word for the number 11. The lunar month is divided into two 14-day periods, one when the moon waxes (sukla paksha)
+            and one when the moon wanes (krishna paksha). Ekadasi is the eleventh day of each of these lunar phases.
+            Fasting varies by tradition with some choosing to avoid all food during Ekadasi, while others avoid all beans and grains and anything made from thos
+e ingredients.
+        </p>
+
+        {% for event in events %}
+            <div class="card event-wrapper">
+                <h5 class="event-title"> {{ event.title }}   </h5>
+                <div class="event-date-wrapper">
+                    <p class="event-date">   {{ event.date  }}   </p>
+                    <p class="event-time"> Begin: {{ event.starts }}  </p>
+                    <p class="event-time"> End: {{ event.ends }}    </p>
+                </div>
+                <p class="event-body">   {{ event.body  }}   </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
