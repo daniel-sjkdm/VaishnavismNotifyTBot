@@ -13,6 +13,9 @@ env = Environment(
 )
 
 
+config = pdfkit.configuration(wxhtmltopdf=os.path.join(BASE_DIR, "bin/wwkhtmltopdf"))
+
+
 def beautify_to_pdf(data, kind):
     template = env.get_template("ekadasi_events.html")
     css = [
@@ -33,5 +36,5 @@ def beautify_to_pdf(data, kind):
         month=data["month"]
     )
 
-    pdffile_bytes = BytesIO(pdfkit.from_string(html, output_path=False, css=css))
+    pdffile_bytes = BytesIO(pdfkit.from_string(html, output_path=False, css=css, configuration=config))
     return BufferedReader(BytesIO(pdffile_bytes.getvalue()))
