@@ -35,10 +35,10 @@ class VaishnaDB:
                     cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(year)s", {"year": f"{data}%"})
                     return cursor.fetchall()
                 elif fetch_by == "month":
-                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(month)s", {"month": f"%-%{data}-%"})
+                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(month)s", {"month": f"%-{data}-%"})
                     return cursor.fetchall()
                 else:
-                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(yearmonth)s", {"yearmonth": f"{data[0]}-%{data[1]}%"})
+                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(yearmonth)s", {"yearmonth": f"{data[0]}-{data[1]}-%"})
                     return cursor.fetchall()
                 
 
@@ -51,9 +51,9 @@ class VaishnaDB:
                     return cursor.fetchall()
                 elif fetch_by == "month":
                     cursor.execute("""SELECT * FROM ekadasi_date JOIN ekadasi
-                    ON ekadasi.id=ekadasi_date.ekadasi_id WHERE event_date::TEXT LIKE %(month)s""", {"month": f"%-%{data}-%"})
+                    ON ekadasi.id=ekadasi_date.ekadasi_id WHERE event_date::TEXT LIKE %(month)s""", {"month": f"%-{data}-%"})
                     return cursor.fetchall()
                 else:
                     cursor.execute("""SELECT * FROM ekadasi_date JOIN ekadasi
-                    ON ekadasi.id=ekadasi_date.ekadasi_id WHERE event_date::TEXT LIKE %(yearmonth)s""", {"yearmonth": f"{data[0]}-%{data[1]}%"})
+                    ON ekadasi.id=ekadasi_date.ekadasi_id WHERE event_date::TEXT LIKE %(yearmonth)s""", {"yearmonth": f"{data[0]}-{data[1]}-%"})
                     return cursor.fetchall()
