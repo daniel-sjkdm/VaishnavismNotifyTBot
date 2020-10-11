@@ -1,0 +1,17 @@
+header {
+    margin: 20px;
+}
+
+
+.header {
+    text-align: center;
+}
+
+.subheader {
+    text-align: center;
+    font-size: 18px;
+}
+
+table th, td {
+    text-align: center;
+}
