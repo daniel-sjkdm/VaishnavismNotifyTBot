@@ -13,7 +13,7 @@ env = Environment(
 )
 
 
-config = pdfkit.configuration(wxhtmltopdf=os.path.join(BASE_DIR, "bin/wwkhtmltopdf"))
+config = pdfkit.configuration(wkhtmltopdf=os.path.join(BASE_DIR, "bin/wkhtmltopdf"))
 
 
 def beautify_to_pdf(data, kind):
