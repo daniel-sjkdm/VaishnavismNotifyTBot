@@ -193,13 +193,9 @@ class VaishnaBot():
                 elif month:
                     events = self.vaishnadb.get_ekadasi_events(month, fetch_by="month")
                 
-
-                print(events)
-
                 if events:
                     events_dict = events_to_dict(events, kind="ekadasi")
                     data["events"] = events_dict
-
 
                     if not year:
                         data["year"] = str(datetime.today().year)
