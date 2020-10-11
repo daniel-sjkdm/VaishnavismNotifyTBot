@@ -46,3 +46,41 @@ def html_to_pdf_v2(text):
     pdffile = io.BytesIO()
     pisa.CreatePDF(md_text, dest=pdffile)
     return io.BufferedReader(io.BytesIO(pdffile.getvalue()))
+
+
+def events_to_dict(events, kind):
+    events_dict = []
+    if kind == "ekadasi":
+        for event in events:
+            name = event[7]
+            year, month, _ = event[3].strftime("%Y-%m-%d").split("-")
+            day = NUMBER_TO_DAY[int(event[3].weekday() + 1)]
+
+            starts = event[4].strftime("%H:%M") 
+            ends = event[5].strftime("%H:%M")
+            body = event[8]
+
+            date = f"{NUMBER_TO_MONTH[int(month)]} {day}, {year}, {day}" 
+
+            events_dict.append({
+                "title": name,
+                "date": date,
+                "starts": starts,
+                "ends": ends,
+                "body": body
+            })
+    
+    elif kind == "iskcon":
+        for event in events:
+            name = event[1]
+            year, month, _ = event[3].strftime("%Y-%m-%d").split("-")
+            day = NUMBER_TO_DAY[int(event[3].weekday() + 1)] 
+
+            date = f"{NUMBER_TO_MONTH[int(month)]} {day}, {year}, {day}" 
+
+            events_dict.append({
+                "name": name, 
+                "date": date
+            })
+
+    return events_dict
