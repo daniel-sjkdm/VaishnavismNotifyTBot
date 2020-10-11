@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="bot/.env")
 
-class VaishnaDBPG():
+class VaishnaDB:
 
     dbname = os.getenv('PGDATABASE')
     host = os.getenv('PGHOST')
@@ -32,13 +32,13 @@ class VaishnaDBPG():
         with self.get_db_connection() as conn:
             with conn.cursor() as cursor:
                 if fetch_by == "year":
-                    cursor.execute("SELECT * FROM iskcon_events WHERE year=%s", (data,))
+                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(year)s", {"year": f"{data}%"})
                     return cursor.fetchall()
                 elif fetch_by == "month":
-                    cursor.execute("SELECT * FROM iskcon_events WHERE month=%s", (data,))
+                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(month)s", {"month": f"%-%{data}-%"})
                     return cursor.fetchall()
                 else:
-                    cursor.execute("SELECT * FROM iskcon_events WHERE month=%s AND year =%s", (data[0], data[1]))
+                    cursor.execute("SELECT * FROM iskcon_event WHERE event_date::TEXT LIKE %(yearmonth)s", {"yearmonth": f"{data[0]}-%{data[1]}%"})
                     return cursor.fetchall()
                 
 
@@ -46,11 +46,14 @@ class VaishnaDBPG():
         with self.get_db_connection() as conn:
             with conn.cursor() as cursor:
                 if fetch_by == "year":
-                    cursor.execute("SELECT * FROM ekadasi_events WHERE year=%s", (data,))
+                    cursor.execute("""SELECT * FROM ekadasi_date JOIN ekadasi
+                    ON ekadasi_date.ekadasi_id=ekadasi.id  WHERE event_date::TEXT LIKE %(year)s""", {"year": f"{data}%"})
                     return cursor.fetchall()
                 elif fetch_by == "month":
-                    cursor.execute("SELECT * FROM ekadasi_events WHERE month=%s", (data,))
+                    cursor.execute("""SELECT * FROM ekadasi_date JOIN ekadasi
+                    ON ekadasi.id=ekadasi_date.ekadasi_id WHERE event_date::TEXT LIKE %(month)s""", {"month": f"%-%{data}-%"})
                     return cursor.fetchall()
                 else:
-                    cursor.execute("SELECT * FROM ekadasi_events WHERE month=%s AND year =%s", (data[0], data[1]))
+                    cursor.execute("""SELECT * FROM ekadasi_date JOIN ekadasi
+                    ON ekadasi.id=ekadasi_date.ekadasi_id WHERE event_date::TEXT LIKE %(yearmonth)s""", {"yearmonth": f"{data[0]}-%{data[1]}%"})
                     return cursor.fetchall()
